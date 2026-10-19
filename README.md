@@ -1,42 +1,44 @@
-<div align="center">
+<a href="https://jxnexus.net/">
+  <img src="./assets/profile-header.svg" width="100%" alt="jhus — Software a medida. Web, APIs y automatización." />
+</a>
 
-# jhus
+### Hola, soy jhus.
 
-**Desarrollo de software · Web · APIs · Automatización**
+Desarrollo aplicaciones web y sistemas a medida, conectando interfaces, APIs y bases de datos. De una necesidad concreta a una herramienta útil.
 
-De una necesidad concreta a una herramienta útil.
+### Tecnologías
 
-[JX NEXUS ↗](https://jxnexus.net/) &nbsp; · &nbsp; [Contacto](https://jxnexus.net/#contacto)
+<p>
+  <img src="./assets/csharp.svg" width="44" height="44" alt="C#" title="C#" /> &nbsp;
+  <img src="./assets/dotnetcore.svg" width="44" height="44" alt=".NET" title=".NET" /> &nbsp;
+  <img src="./assets/react.svg" width="44" height="44" alt="React" title="React" /> &nbsp;
+  <img src="./assets/vite.svg" width="44" height="44" alt="Vite" title="Vite" /> &nbsp;
+  <img src="./assets/postgresql.svg" width="44" height="44" alt="PostgreSQL" title="PostgreSQL" /> &nbsp;
+  <img src="./assets/docker.svg" width="44" height="44" alt="Docker" title="Docker" /> &nbsp;
+  <img src="./assets/nginx.svg" width="44" height="44" alt="Nginx" title="Nginx" />
+</p>
 
-</div>
+`C# / .NET` · `React / Vite` · `PostgreSQL` · `Docker / Nginx`
 
----
+### Lo que construyo
 
-Desarrollo aplicaciones web y sistemas a medida, conectando interfaces, APIs y bases de datos. Mi trabajo combina lógica de negocio, gestión de información y herramientas que facilitan las tareas del día a día.
+- **Sistemas de gestión** para organizar información y conectar procesos.
+- **Aplicaciones web** con interfaces claras y lógica de negocio.
+- **APIs e integraciones** para comunicar servicios y automatizar tareas.
 
-## Tecnologías con las que trabajo
+<details>
+  <summary>Cómo trabajo</summary>
+  <br />
+  Entender el problema, construir por etapas y comprobar cada avance. Doy prioridad a los permisos de acceso, la consistencia de los datos y un código que se pueda mantener.
+</details>
 
-| Área | Herramientas |
-| :--- | :--- |
-| Backend | C# · .NET · ASP.NET Core · Entity Framework Core |
-| Frontend | React · Vite |
-| Datos | PostgreSQL |
-| Entorno y despliegue | Docker · Docker Compose · Nginx |
+<br />
 
-## En qué me enfoco
+<a href="https://jxnexus.net/"><img src="./assets/website.svg" alt="Conoce JX NEXUS" width="168" height="38" /></a>
+&nbsp;
+<a href="https://jxnexus.net/#contacto"><img src="./assets/contact.svg" alt="Hablemos de tu proyecto" width="168" height="38" /></a>
 
-- **Sistemas de gestión:** organizar información y conectar procesos de trabajo.
-- **Aplicaciones web:** interfaces claras conectadas con la lógica del negocio.
-- **APIs e integraciones:** comunicar servicios y automatizar tareas.
+<br />
+<br />
 
-## Cómo trabajo
-
-Entender el problema, construir por etapas y comprobar cada avance. Doy prioridad a los permisos de acceso, la consistencia de los datos y un código que se pueda mantener.
-
-Mis proyectos se mantienen en repositorios privados. Este perfil reúne mis tecnologías y áreas de trabajo.
-
----
-
-**Conoce JX NEXUS** → [jxnexus.net](https://jxnexus.net/)
-
-Desarrollo a medida, aplicaciones web y automatización.
+<sub>Mis proyectos se mantienen en repositorios privados.</sub>
