@@ -1,5 +1,5 @@
 <a href="https://jxnexus.net/">
-  <img src="./assets/profile-header.svg" width="100%" alt="jhus — Software a medida. Web, APIs y automatización." />
+  <img src="./assets/profile-header.svg?v=2" width="100%" alt="jhus — Software a medida. Web, APIs y automatización." />
 </a>
 
 ### Hola, soy jhus.
@@ -34,9 +34,9 @@ Desarrollo aplicaciones web y sistemas a medida, conectando interfaces, APIs y b
 
 <br />
 
-<a href="https://jxnexus.net/"><img src="./assets/website.svg" alt="Conoce JX NEXUS" width="168" height="38" /></a>
+<a href="https://jxnexus.net/"><img src="./assets/website.svg?v=2" alt="Conoce JX NEXUS" width="168" height="38" /></a>
 &nbsp;
-<a href="https://jxnexus.net/#contacto"><img src="./assets/contact.svg" alt="Hablemos de tu proyecto" width="168" height="38" /></a>
+<a href="https://jxnexus.net/#contacto"><img src="./assets/contact.svg?v=2" alt="Hablemos de tu proyecto" width="168" height="38" /></a>
 
 <br />
 <br />
