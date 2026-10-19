@@ -3,7 +3,6 @@ import path from 'node:path';
 
 const login='fuck-jhus';
 const steamUrl='https://steamcommunity.com/id/iamjhus/';
-const musicUrl='https://music.apple.com/profile/jhus';
 const fixtureIndex=process.argv.indexOf('--fixtures');
 const fixtures=fixtureIndex>=0?path.resolve(process.argv[fixtureIndex+1]):null;
 const assets=path.resolve('assets');
@@ -21,7 +20,6 @@ const symbols={
  code:'<path d="m5 4-4 4 4 4m6-8 4 4-4 4M9 2 7 14"/>',
  calendar:'<rect x="1" y="3" width="14" height="12" rx="1"/><path d="M4 1v4m8-4v4M1 7h14"/>',
  game:'<path d="M4 5h8c3 0 4 7 2 8-1 1-3-2-4-2H6c-1 0-3 3-4 2C0 12 1 5 4 5Z"/><path d="M5 7v4M3 9h4m4-1h.1m2 2h.1"/>',
- music:'<path d="M6 12V3l8-2v9M6 6l8-2"/><ellipse cx="3.5" cy="12.5" rx="2.5" ry="1.8"/><ellipse cx="11.5" cy="10.5" rx="2.5" ry="1.8"/>',
 };
 const icon=(type,x,y,color=C.muted,size=19)=>`<g transform="translate(${x} ${y}) scale(${size/16})" fill="none" stroke="${color}" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">${symbols[type]||symbols.code}</g>`;
 const heading=(s,type='code')=>icon(type,25,22,C.muted,22)+txt(s,60,42,22,C.blue);
@@ -92,7 +90,7 @@ async function steamPanel(html){
  const pictures=await Promise.all(games.map(g=>g.image?imageData(g.image).catch(()=>null):null));
  let body=heading('Steam · juegos recientes','game');
  games.forEach((g,i)=>{
-  const y=76+i*91;
+  const y=76+i*79;
   if(pictures[i])body+=`<image x="26" y="${y}" width="128" height="48" preserveAspectRatio="xMidYMid slice" xlink:href="${esc(pictures[i])}"/>`;
   body+=txt(g.name,173,y+17,19,C.blue);
   body+=icon('clock',174,y+31,C.muted,15)+txt(g.hours?`${g.hours} h en total`:'Horas no visibles',197,y+44,16,C.muted);
@@ -100,21 +98,8 @@ async function steamPanel(html){
   const achievements=g.achievements.match(/(\d+)\s+of\s+(\d+)\s+Achievements/i);
   if(achievements)body+=txt(`${achievements[1]} / ${achievements[2]} logros`,730,y+44,15,C.muted);
  });
- body+=txt(`iamjhus · Fuente: perfil público de Steam · ${checked}`,26,371,15,C.muted);
- return svg('Juegos recientes de jhus en Steam',392,body);
-}
-async function techPanel(){
- const tools=[['nodejs','Node.js'],['python','Python'],['rust','Rust'],['c','C'],['cplusplus','C++'],['csharp','C#'],['dotnetcore','.NET'],['react','React'],['vite','Vite'],['microsoftsqlserver','SQL Server'],['postgresql','PostgreSQL'],['docker','Docker'],['nginx','Nginx'],['windows11','Windows'],['linux','Linux'],['apple','macOS / iOS'],['android','Android']];
- let body=heading('Tecnologías y plataformas','code');
- for(let i=0;i<tools.length;i++){
-  const file=await fs.readFile(path.join(assets,tools[i][0]+'.svg'));
-  body+=`<image x="${25+i*56}" y="70" width="40" height="40" xlink:href="data:image/svg+xml;base64,${file.toString('base64')}"/>`;
- }
- let x=25,y=141;
- for(const [,label] of tools){const width=label.length*8+26;if(x+width>975){x=25;y+=35;}
-  body+=`<rect x="${x}" y="${y}" width="${width}" height="27" rx="13.5" fill="#162d46"/>`+txt(label,x+13,y+19,15,C.blue);x+=width+9;
- }
- return svg('Tecnologías y plataformas de jhus',y+56,body);
+ body+=txt(`iamjhus · Fuente: perfil público de Steam · ${checked}`,26,330,15,C.muted);
+ return svg('Juegos recientes de jhus en Steam',351,body);
 }
 await fs.mkdir(assets,{recursive:true});
 const [userText,reposText,calendar]=await Promise.all([
@@ -124,26 +109,29 @@ const [userText,reposText,calendar]=await Promise.all([
 ]);
 const user=JSON.parse(userText),repos=JSON.parse(reposText),days=calendarDays(calendar);
 if(!Array.isArray(repos)||repos.length<user.public_repos)throw Error('Public repository list is incomplete');
-const stats=[['repo',`${user.public_repos} repositorio${user.public_repos===1?'':'s'} público${user.public_repos===1?'':'s'}`],['people',`${user.followers} seguidores`],['star',`${repos.reduce((s,r)=>s+r.stargazers_count,0)} estrellas`],['fork',`${repos.reduce((s,r)=>s+r.forks_count,0)} forks`],['code',`${user.public_gists} gists públicos`]];
-let summary=txt(user.name||login,25,42,26,C.blue,600)+txt('@'+login,25,70,17,C.muted);
-summary+=icon('clock',26,88,C.muted,18)+txt('En GitHub desde '+new Date(user.created_at).toLocaleDateString('es-GT',{timeZone:'America/Guatemala',month:'short',year:'numeric'}),54,103,17,C.muted);
-stats.forEach(([type,value],i)=>{const x=i<3?26:510,y=142+(i<3?i:i-3)*30;summary+=icon(type,x,y-15)+txt(value,x+29,y,18);});
-const tail=days.slice(-14);tail.forEach((d,i)=>summary+=`<rect x="${510+i*25}" y="39" width="18" height="18" rx="2" fill="${d.count?C.green:'#c9d1d9'}"><title>${d.date}: ${d.count} contribuciones</title></rect>`);
-summary+=txt('Actividad pública · últimos 14 días',510,83,17,C.muted)+txt(`${days.reduce((s,d)=>s+d.count,0)} contribuciones públicas en el último año`,510,115,18,C.blue)+txt(`Actualizado: ${checked}`,510,216,15,C.muted);
-await fs.writeFile(path.join(assets,'github-summary-v2.svg'),svg('Resumen público de GitHub de jhus',240,summary));
-await fs.writeFile(path.join(assets,'github-calendar-v2.svg'),isoCalendar(days,365));
-await fs.writeFile(path.join(assets,'github-calendar-half-v2.svg'),isoCalendar(days,183));
-await fs.writeFile(path.join(assets,'profile-technologies-v2.svg'),await techPanel());
+const visibleDays=days.slice(-365),total=visibleDays.reduce((s,d)=>s+d.count,0);
+let overview=heading('GitHub · actividad pública','calendar');
+const summaryRows=[['Contribuciones',total],['Repositorios públicos',user.public_repos],['Seguidores',user.followers],['Estrellas',repos.reduce((s,r)=>s+r.stargazers_count,0)],['Forks',repos.reduce((s,r)=>s+r.forks_count,0)]];
+summaryRows.forEach(([label,value],i)=>{overview+=txt(label,25,102+i*37,18,C.muted)+txt(value,290,102+i*37,20,i===0?C.green:C.ink,500);});
+let streak=0,best=0;for(const d of visibleDays){streak=d.count?streak+1:0;best=Math.max(best,streak);}
+let current=0;for(let i=visibleDays.length-1-(visibleDays.at(-1).count?0:1);i>=0&&visibleDays[i].count;i--)current++;
+overview+=txt('Racha actual: '+current+' día'+(current===1?'':'s'),25,312,17,C.blue)+txt('Mejor racha: '+best+' día'+(best===1?'':'s'),25,339,17,C.muted);
+const first=new Date(visibleDays[0].date+'T00:00:00Z');first.setUTCDate(first.getUTCDate()-first.getUTCDay());
+for(const d of visibleDays){
+ const delta=Math.round((new Date(d.date+'T00:00:00Z')-first)/86400000),week=Math.floor(delta/7),day=delta%7;
+ const x=450+week*9.7-day*9.7,y=83+week*4.1+day*4.8,h=d.count?Math.min(52,8+Math.log2(d.count+1)*7):0;
+ const fill=['#dbe3ea','#0e4429','#006d32','#26a641','#39d353'][d.level];
+ overview+='<g><title>'+d.date+': '+d.count+' contribuciones públicas</title><path d="M'+x+' '+(y-h)+'l8.7 4.1-8.7 4.4-8.7-4.1Z" fill="'+fill+'"/>';
+ if(h)overview+='<path d="M'+(x+8.7)+' '+(y-h+4.1)+'l-8.7 4.4v'+h+'l8.7-4.4Z" fill="#16813e"/><path d="M'+x+' '+(y-h+8.5)+'l-8.7-4.1v'+h+'l8.7 4.1Z" fill="#0e4429"/>';
+ overview+='</g>';
+}
+overview+=txt('Último año · '+visibleDays[0].date+' — '+visibleDays.at(-1).date,410,349,15,C.muted)+txt('Actualizado: '+checked,25,382,15,C.muted);
+await fs.writeFile(path.join(assets,'github-overview-v3.svg'),svg('Actividad pública de jhus en GitHub',402,overview));
+await fs.writeFile(path.join(assets,'github-calendar-v3.svg'),isoCalendar(days,365));
+await fs.writeFile(path.join(assets,'github-calendar-half-v3.svg'),isoCalendar(days,183));
 try{
  const steam=await get(steamUrl,'enriched-steam.txt');
- await fs.writeFile(path.join(assets,'steam-recent-v2.svg'),await steamPanel(steam));
+ await fs.writeFile(path.join(assets,'steam-recent-v3.svg'),await steamPanel(steam));
  console.log('Steam: public recent games refreshed');
-}catch(e){console.warn('Steam unchanged:',e.message);if(!await fs.stat(path.join(assets,'steam-recent-v2.svg')).catch(()=>null))throw e;}
-try{
- const music=await get(musicUrl,'apple-profile.html');
- const privateProfile=/content="Private Profile"/.test(music);
- const body=heading('Apple Music · @jhus','music')+txt(privateProfile?'Las escuchas recientes no están disponibles públicamente.':'Mi actividad musical está en mi perfil de Apple Music.',25,89,19,C.ink)+txt('music.apple.com/profile/jhus',25,125,17,C.blue);
- await fs.writeFile(path.join(assets,'apple-music-v2.svg'),svg('Perfil de jhus en Apple Music',154,body));
- console.log('Apple Music:',privateProfile?'private profile; no listening history retrieved':'profile link refreshed');
-}catch(e){console.warn('Apple Music unchanged:',e.message);}
+}catch(e){console.warn('Steam unchanged:',e.message);if(!await fs.stat(path.join(assets,'steam-recent-v3.svg')).catch(()=>null))throw e;}
 console.log(`GitHub: ${user.public_repos} public repositories, ${days.length} calendar days, ${days.reduce((s,d)=>s+d.count,0)} public contributions`);
