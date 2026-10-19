@@ -1,0 +1,60 @@
+name: Metrics
+
+on:
+  schedule:
+    - cron: "15 6 * * *"
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: [.github/workflows/metrics.yml]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: profile-metrics
+  cancel-in-progress: false
+
+jobs:
+  metrics:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      METRICS_TOKEN: ${{ secrets.METRICS_TOKEN }}
+    steps:
+      - name: Check Metrics configuration
+        id: configuration
+        shell: bash
+        run: |
+          if [ -n "$METRICS_TOKEN" ]; then
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::Metrics is prepared. Add METRICS_TOKEN to activate generation."
+          fi
+
+      - name: Generate public profile metrics
+        if: steps.configuration.outputs.ready == 'true'
+        uses: lowlighter/metrics@65836723097537a54cd8eb90f61839426b4266b6
+        with:
+          token: ${{ secrets.METRICS_TOKEN }}
+          committer_token: ${{ github.token }}
+          user: fuck-jhus
+          filename: assets/github-metrics.svg
+          template: classic
+          base: header, activity, community, repositories, metadata
+          repositories_affiliations: owner
+          repositories_forks: no
+          config_timezone: America/Guatemala
+          config_display: columns
+          config_padding: 0, 16
+          config_animations: no
+          config_octicon: yes
+          plugin_isocalendar: yes
+          plugin_isocalendar_duration: half-year
+          plugin_habits: yes
+          plugin_habits_facts: yes
+          plugin_habits_charts: yes
+          plugin_habits_trim: yes
+          use_mocked_data: no
+          plugins_errors_fatal: no
