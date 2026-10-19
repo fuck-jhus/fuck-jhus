@@ -1,1 +1,1 @@
-<img src="./assets/profile-ascii-jx-pixel-v5.svg" width="100%" alt="jhus · Desarrollador full stack con 6 años de experiencia. Iniciales JX en ASCII con tipografía pixel VT323. Web, Android, iOS, automatización e IA; frontend, backend, datos e infraestructura." />
+<img src="./assets/profile-ascii-jx-pixel-v6.svg" width="100%" alt="jhus · Desarrollador full stack con 5+ años de experiencia. Iniciales JX en ASCII con tipografía pixel VT323. Web, Android, iOS, automatización e IA; frontend, backend, datos e infraestructura." />
