@@ -28,7 +28,7 @@ const heading=(s,type='code')=>icon(type,25,22,C.muted,22)+txt(s,60,42,22,C.blue
 function svg(title,height,body){return `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1000" height="${height}" viewBox="0 0 1000 ${height}" role="img" aria-labelledby="title"><title id="title">${esc(title)}</title><style>text{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}</style><rect width="1000" height="${height}" fill="${C.bg}"/>${body}</svg>`;}
 async function get(url,fixture){
  if(fixtures&&fixture)return fs.readFile(path.join(fixtures,fixture),'utf8');
- const headers={'User-Agent':'jhus-profile-widgets','Accept':'application/json'};
+ const headers={'User-Agent':'jhus-profile-widgets','Accept':new URL(url).hostname==='api.github.com'?'application/vnd.github+json':'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'};
  if(new URL(url).hostname==='api.github.com'&&process.env.GITHUB_TOKEN)headers.Authorization=`Bearer ${process.env.GITHUB_TOKEN}`;
  const response=await fetch(url,{headers,signal:AbortSignal.timeout(25000)});
  if(!response.ok)throw Error(`Source unavailable: HTTP ${response.status} at ${new URL(url).hostname}`);
